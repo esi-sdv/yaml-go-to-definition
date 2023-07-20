@@ -1,5 +1,8 @@
 export function isDefinition(line: string, searchText: string): boolean {
-  if (line.startsWith(searchText)) {
+  const searchTextWithColon =
+    searchText.at(-1) === ":" ? searchText : searchText + ":";
+
+  if (line.startsWith(searchTextWithColon)) {
     return true;
   }
   return false;
