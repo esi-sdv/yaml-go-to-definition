@@ -24,11 +24,13 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"
   },
+  "dependencies": {
+    "glob": "^10.3.3"
+  },
   "devDependencies": {
     "@types/vscode": "^1.80.0",
     "@types/glob": "^8.1.0",
     "@types/node": "20.2.5",
-    "glob": "^8.1.0",
     "typescript": "^5.1.3"
   }
 }
