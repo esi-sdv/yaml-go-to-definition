@@ -10,6 +10,14 @@
   "activationEvents": [
     "onLanguage:yaml"
   ],
+  "author": {
+    "name": "Daniil Golovin",
+    "work_email": "daniil@tripleten.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.internal.practicum.com/practicum/services/yaml-go-to-definition"
+  },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
