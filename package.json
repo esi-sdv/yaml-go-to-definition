@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.internal.practicum.com/practicum/services/yaml-go-to-definition"
+    "url": "https://github.com/DanielGolovin/yaml-go-to-definition"
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
