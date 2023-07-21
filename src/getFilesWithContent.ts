@@ -11,9 +11,10 @@ export async function getFilesWithContent(
 ): Promise<Map<FileAbsolutePath, FileContentLine[]>> {
   const globP = promisify(glob);
 
-  const files = await globP("**/*.+(yaml|yml)", {
+  const files = await globP("**/*.y?(a)ml", {
     cwd: root,
     ignore: "**/node_modules/**",
+    dot: true,
   });
 
   const filePromises = files.map(async (filePath) => {

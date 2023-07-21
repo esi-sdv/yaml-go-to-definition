@@ -21,7 +21,7 @@ class YamlDefinitionProvider implements vscode.DefinitionProvider {
     token: vscode.CancellationToken
   ): Promise<vscode.Location[]> {
     const name = this.getClicked(document, position);
-    console.log("name", name);
+
     const filePathToLineNumbersMap = await this.getFilePathToLineNumbersMap(
       name
     );
@@ -54,13 +54,11 @@ class YamlDefinitionProvider implements vscode.DefinitionProvider {
     const fileContentMap = await getFilesWithContent(root);
     const filePathToLineNumbersMap = findLinesWithText(fileContentMap, name);
 
-    console.log(filePathToLineNumbersMap);
-
     return filePathToLineNumbersMap;
   }
 
   private getClicked(document: vscode.TextDocument, position: vscode.Position) {
-    const range = document.getWordRangeAtPosition(position, /[^ \{\}\[\]]+/);
+    const range = document.getWordRangeAtPosition(position, /[^ \{\}\[\]\,]+/);
     const name = document.getText(range);
 
     return name;
