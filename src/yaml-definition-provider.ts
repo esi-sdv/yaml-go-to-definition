@@ -1,56 +1,63 @@
 import * as vscode from "vscode";
-import { getFilesWithContent } from "./getFilesWithContent";
 import {
-  FilePathToFoundInLineNumbersMap,
-  findLinesWithText,
+  AbsoluteFilePath,
+  getAbsolutePathToFileContentLinesMap,
+} from "./getAbsolutePathToFileContentLinesMap";
+import { getRoot } from "./getRoot";
+import {
+  AbsolutePathToFoundInLineNumbersMap,
+  LineNumber,
+  getAbsolutePathToFoundInLineNumbersMap,
 } from "./findLinesWithText";
 
 export class YamlDefinitionProvider implements vscode.DefinitionProvider {
-  async provideDefinition(
+  provideDefinition(
     document: vscode.TextDocument,
     position: vscode.Position,
     token: vscode.CancellationToken
-  ): Promise<vscode.Location[]> {
-    console.time("Total time: provideDefinition")
-
+  ): vscode.Location[] {
+    console.time("Total time: provideDefinition");
+    const root = getRoot();
     const name = this.getClicked(document, position);
 
     console.time("Total time: getFilePathToLineNumbersMap");
-    const filePathToLineNumbersMap = await this.getFilePathToLineNumbersMap(
+    const filePathToLineNumbersMap = getAbsolutePathToFoundInLineNumbersMap(
+      getAbsolutePathToFileContentLinesMap(root),
       name
     );
     console.timeEnd("Total time: getFilePathToLineNumbersMap");
 
-    const locations = await this.getLocations(filePathToLineNumbersMap);
+    const locations = this.getLocations(filePathToLineNumbersMap);
 
-    console.timeEnd("Total time: provideDefinition")
+    console.timeEnd("Total time: provideDefinition");
     return locations;
   }
 
-  private async getLocations(
-    filePathToLineNumbersMap: FilePathToFoundInLineNumbersMap
+  private createLocationFromFilePathAndLineNumber(
+    filePath: AbsoluteFilePath,
+    lineNumber: LineNumber
+  ): vscode.Location {
+    const uri = vscode.Uri.file(filePath);
+    const pos = new vscode.Position(lineNumber - 1, 0);
+    return new vscode.Location(uri, pos);
+  }
+
+  private createLocationsFromFilePath(
+    filePath: AbsoluteFilePath,
+    lineNumbers: LineNumber[]
+  ): vscode.Location[] {
+    return lineNumbers.map((lineNumber) =>
+      this.createLocationFromFilePathAndLineNumber(filePath, lineNumber)
+    );
+  }
+
+  private getLocations(
+    filePathToLineNumbersMap: AbsolutePathToFoundInLineNumbersMap
   ) {
-    const locations: vscode.Location[] = Object.entries(
-      filePathToLineNumbersMap
-    ).flatMap(([filePath, lineNumbers]) => {
-      const uri = vscode.Uri.file(filePath);
-      return lineNumbers.map((lineNumber) => {
-        const pos = new vscode.Position(lineNumber - 1, 0);
-        return new vscode.Location(uri, pos);
-      });
-    });
-
-    return locations;
-  }
-
-  private async getFilePathToLineNumbersMap(
-    name: string
-  ): Promise<FilePathToFoundInLineNumbersMap> {
-    const root = vscode.workspace.workspaceFolders![0].uri.fsPath;
-    const fileContentMap = await getFilesWithContent(root);
-    const filePathToLineNumbersMap = findLinesWithText(fileContentMap, name);
-
-    return filePathToLineNumbersMap;
+    return Object.entries(filePathToLineNumbersMap).flatMap(
+      ([filePath, lineNumbers]) =>
+        this.createLocationsFromFilePath(filePath, lineNumbers)
+    );
   }
 
   private getClicked(document: vscode.TextDocument, position: vscode.Position) {
