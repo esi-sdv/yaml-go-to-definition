@@ -20,7 +20,7 @@
     "url": "https://github.com/DanielGolovin/yaml-go-to-definition"
   },
   "scripts": {
-    "vscode:prepublish": "pnpm run compile",
+    "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./"
   },
