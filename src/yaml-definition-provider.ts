@@ -9,27 +9,49 @@ import {
   LineNumber,
   getAbsolutePathToFoundInLineNumbersMap,
 } from "./findLinesWithText";
+import { Cache } from "./cache";
+import { ILogger } from "./logger";
 
 export class YamlDefinitionProvider implements vscode.DefinitionProvider {
+  constructor(
+    private cache: Cache<vscode.Location[]>,
+    private logger: ILogger
+  ) {}
+
   provideDefinition(
     document: vscode.TextDocument,
     position: vscode.Position,
     token: vscode.CancellationToken
   ): vscode.Location[] {
-    console.time("Total time: provideDefinition");
-    const root = getRoot();
+    this.logger.startPerformanceLog("Total time: provideDefinition");
+
     const name = this.getClicked(document, position);
 
-    console.time("Total time: getFilePathToLineNumbersMap");
+    const cacheKey = `${vscode.workspace.name}-${name}`;
+    this.logger.log("cacheKey", cacheKey);
+    const cachedResult = this.cache.get(cacheKey);
+
+    if (cachedResult) {
+      this.logger.log("Returning cached result");
+      this.logger.endPerformanceLog("Total time: provideDefinition");
+
+      return cachedResult;
+    }
+
+    const root = getRoot();
+
+    this.logger.startPerformanceLog("Total time: getFilePathToLineNumbersMap");
     const filePathToLineNumbersMap = getAbsolutePathToFoundInLineNumbersMap(
       getAbsolutePathToFileContentLinesMap(root),
       name
     );
-    console.timeEnd("Total time: getFilePathToLineNumbersMap");
+    this.logger.endPerformanceLog("Total time: getFilePathToLineNumbersMap");
 
     const locations = this.getLocations(filePathToLineNumbersMap);
+    this.cache.set(cacheKey, locations);
 
-    console.timeEnd("Total time: provideDefinition");
+    this.logger.endPerformanceLog("Total time: provideDefinition");
+
     return locations;
   }
 

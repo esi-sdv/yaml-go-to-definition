@@ -27,7 +27,6 @@ export function getAbsolutePathToFileContentLinesMap(
   root: string
 ): AbsolutePathToFileContentLinesMap {
   const files: RelativeFilePath[] = getYamlFilePaths(root);
-  console.time("reading and parsing files took: ");
 
   const fileContentMap = files.reduce<AbsolutePathToFileContentLinesMap>(
     (accumulator, filePath) => {
@@ -38,8 +37,6 @@ export function getAbsolutePathToFileContentLinesMap(
     },
     {}
   );
-
-  console.timeEnd("reading and parsing files took: ");
 
   return fileContentMap;
 }
