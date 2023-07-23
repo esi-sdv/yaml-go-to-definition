@@ -4,6 +4,7 @@
   "description": "This is a simple extension that allows you to go to the definition of a whatever in a yaml file.",
   "publisher": "GolovinDaniil",
   "version": "0.0.6",
+  "icon": "logo.png",
   "engines": {
     "vscode": "^1.80.0"
   },
