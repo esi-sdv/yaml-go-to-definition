@@ -26,6 +26,7 @@ export class YamlDefinitionProvider implements vscode.DefinitionProvider {
     this.logger.startPerformanceLog("Total time: provideDefinition");
 
     const name = this.getClicked(document, position);
+    this.logger.log("Looking for defenition of: ", name);
 
     const cacheKey = `${vscode.workspace.name}-${name}`;
     this.logger.log("cacheKey", cacheKey);
