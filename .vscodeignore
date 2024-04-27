@@ -7,4 +7,5 @@ src/**
 **/*.yml
 **/*.yaml
 **/*.ts
+node_modules/**
 README_DEV.md
