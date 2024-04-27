@@ -1,17 +1,20 @@
-# What is this?
+# Overview
 
-This is a simple extension that allows you to go to the definition of a whatever in a yaml file.
+This extension for Visual Studio Code allows you to quickly navigate to the definition of a term within YAML files. <br>
+This is particularly useful when working with large YAML configurations, especially if you separate them into multiple files. <br>
+
+## How does it work?
+
+It simply takes the root of your project, compiles all YAML and YML files into one, and retains the original file and line position information. 
 
 ## Features
 
-Currently supports things, that was defined like this:
+This extension currently supports definitions in the following formats:
 
 ```yaml
 .thing:
-
-# or
-
+```
+or
+```yaml
 thing:
 ```
-
-**Nested defeinitions are not supported yet.**
