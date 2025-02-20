@@ -1,0 +1,26 @@
+{
+    "name": "VS Code Extension Development",
+    "build": {
+      "dockerfile": "Dockerfile"
+    },
+    "customizations": {
+      "vscode": {
+        "extensions": [
+          "dbaeumer.vscode-eslint",
+          "esbenp.prettier-vscode",
+          "ms-vscode.vscode-typescript-tslint-plugin",
+          "ms-vscode-remote.remote-containers",
+          "ms-vscode-remote.remote-ssh",
+          "ms-vscode-remote.remote-ssh-edit",
+          "ms-vscode-remote.remote-wsl",
+          "ms-vscode-remote.vscode-remote-extensionpack",
+          "ms-vscode.vscode-typescript-tslint-plugin",
+          "ms-vscode.vscode-typescript-next",
+          "ms-vscode.vscode-node-debug2"
+        ]
+      }
+    },
+    "postCreateCommand": "npm install",
+    "forwardPorts": [3000],
+    "remoteUser": "vscode"
+  }
