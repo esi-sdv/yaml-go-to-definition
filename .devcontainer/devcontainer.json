@@ -1,22 +1,21 @@
 {
-    "name": "VS Code Extension Development",
-    "build": {
-      "dockerfile": "Dockerfile"
-    },
-    "customizations": {
-      "vscode": {
-        "extensions": [
-          "dbaeumer.vscode-eslint",
-          "esbenp.prettier-vscode",
-          "rbbit.typescript-hero",
-          "pmneo.tsimporter",
-          "WallabyJs.quokka-vscode",
-          "christian-kohler.path-intellisense",
-          "CoenraadS.bracket-pair-colorizer-2"
-        ]
-      }
-    },
-    "postCreateCommand": "npm install",
-    "forwardPorts": [3000],
-    "remoteUser": "vscode"
-  }
+  "name": "VS Code Extension Development",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "rbbit.typescript-hero",
+        "pmneo.tsimporter",
+        "WallabyJs.quokka-vscode",
+        "christian-kohler.path-intellisense",
+        "CoenraadS.bracket-pair-colorizer-2"
+      ]
+    }
+  },
+  "postCreateCommand": "npm install",
+  "forwardPorts": [3000]
+}
