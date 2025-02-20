@@ -8,11 +8,9 @@
       "extensions": [
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",
-        "rbbit.typescript-hero",
         "pmneo.tsimporter",
         "WallabyJs.quokka-vscode",
-        "christian-kohler.path-intellisense",
-        "CoenraadS.bracket-pair-colorizer-2"
+        "christian-kohler.path-intellisense"
       ]
     }
   },
